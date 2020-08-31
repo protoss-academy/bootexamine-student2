@@ -28,7 +28,7 @@ public class DocumentController {
     @GetMapping("/{id}")
     public ResponseEntity<Document> getDocument(@PathVariable("id") String id) {
         log.info("GET /document/{} -> DocumentController.getDocument(id=\"{}\")", id, id);
-        Long longId = Long.getLong(id);
+        Long longId = new Long(id);
 
         Optional<Document> queryResult = repository.findById(longId);
         if(!queryResult.isPresent()) {
@@ -58,7 +58,7 @@ public class DocumentController {
         log.info("DocumentController.putDocument(id, document) document.documentNumber={}", document.getDocumentNumber());
         log.info("DocumentController.putDocument(id, document) document.description={}", document.getDescription());
 
-        Long longId = Long.getLong(id);
+        Long longId = new Long(id);
         if(document.getId() != null && longId != document.getId()) {
             log.error("DocumentController.putDocument(id, document) id in PathVariable({}) and in RequestBody({}) are different.", id, document.getId().toString());
             return ResponseEntity.badRequest().build();
@@ -71,7 +71,7 @@ public class DocumentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteDocument(@PathVariable("id") String id) {
         log.info("DELETE /document/{} -> DocumentController.deleteDocument(id=\"{}\")", id, id);
-        Long longId = Long.getLong(id);
+        Long longId = new Long(id);
         repository.deleteById(longId);
         return ResponseEntity.ok("");
     }
